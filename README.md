@@ -8,3 +8,13 @@ Bản xem trên web (một file `index.html`, không cần cài đặt) của đ
 - Bản nháp: 18/11/2026
 
 Mở `index.html` bằng trình duyệt để xem. Có thể bật GitHub Pages (Settings → Pages) nếu repo để chế độ phù hợp.
+
+## Bộ nhận diện (assets/brand)
+
+Logo và icon IATC do Thầy Long cung cấp ngày 18/11/2026:
+
+- `IATC-logo-mau-chinh-*`: logo màu chính (navy + cam), dùng trên nền sáng.
+- `IATC-logo-nen-toi-*`: logo trắng + cam, dùng trên nền navy/tối (đang dùng ở đầu trang).
+- `IATC-logo-1mau-navy-*`, `-1mau-den-*`, `-1mau-trang-*`: logo một màu.
+- `IATC-icon-app-*`: icon ứng dụng nền navy; `IATC-icon-dong-ho-*`: biểu tượng đồng hồ đo.
+- `favicon.ico`, `favicon-16/32/48/192/512px.png`: favicon tạo từ icon app 1024px.
