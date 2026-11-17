@@ -18,3 +18,9 @@ Logo và icon IATC do Thầy Long cung cấp ngày 18/11/2026:
 - `IATC-logo-1mau-navy-*`, `-1mau-den-*`, `-1mau-trang-*`: logo một màu.
 - `IATC-icon-app-*`: icon ứng dụng nền navy; `IATC-icon-dong-ho-*`: biểu tượng đồng hồ đo.
 - `favicon.ico`, `favicon-16/32/48/192/512px.png`: favicon tạo từ icon app 1024px.
+
+## Xem trên web (GitHub Pages)
+
+Địa chỉ sau khi bật Pages: https://iatc18.github.io/iatc-hepza-de-xuat/
+
+Trang có thẻ `noindex, nofollow` để Google và các công cụ tìm kiếm không đưa vào kết quả tìm kiếm; ai có đường link vẫn xem được.
