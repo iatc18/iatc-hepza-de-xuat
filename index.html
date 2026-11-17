@@ -10,54 +10,69 @@
 <style>
 /* Bố cục: một cột đọc ~720px, hình minh họa rộng hơn; màu nhận diện IATC (navy + cam) */
 :root {
-  --bg: #F6F8FB;
+  /* Theme IATC: Navy chủ đạo, Cam nhấn, Cyan + Green bổ sung; dải 4 màu web 46:18:18:18 */
+  --iatc-navy: #0B1F3A;
+  --iatc-orange: #FF6B1A;
+  --iatc-green: #00D68F;
+  --iatc-cyan: #00C2FF;
+  --bg: #F4F7FB;
   --surface: #FFFFFF;
   --ink: #0B1F3A;
-  --ink-2: #44546B;
-  --ink-3: #6B7A90;
-  --rule: #DCE3EC;
-  --accent: #E8590C;
-  --accent-soft: rgba(232, 89, 12, 0.10);
-  --navy-soft: rgba(11, 31, 58, 0.05);
-  --s-manual: #3B6FD4;
-  --s-skill: #E8590C;
+  --ink-2: #3E5068;
+  --ink-3: #66788F;
+  --rule: #DCE4EE;
+  --accent: #FF6B1A;
+  --accent-ink: #C94A06;
+  --accent-soft: rgba(255, 107, 26, 0.10);
+  --cyan-soft: rgba(0, 194, 255, 0.16);
+  --green-ink: #008A5C;
+  --cyan-ink: #0079A8;
+  --s-manual: #0B1F3A;
+  --s-skill: #FF6B1A;
   --warn-bg: #FFF1E8;
   --warn-ink: #9A3A06;
   --font: "Be Vietnam Pro", "Segoe UI", system-ui, -apple-system, sans-serif;
   color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0B1422; --surface: #111D30; --ink: #E8EEF6; --ink-2: #B3C0D2; --ink-3: #8696AC;
-    --rule: #24344D; --accent: #FF7A33; --accent-soft: rgba(255, 122, 51, 0.14);
-    --navy-soft: rgba(232, 238, 246, 0.04); --s-manual: #4F86E8; --s-skill: #E8611A;
-    --warn-bg: #2A1A10; --warn-ink: #FFB487; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0B1422; --surface: #111D30; --ink: #E8EEF6; --ink-2: #B3C0D2; --ink-3: #8696AC;
-  --rule: #24344D; --accent: #FF7A33; --accent-soft: rgba(255, 122, 51, 0.14);
-  --navy-soft: rgba(232, 238, 246, 0.04); --s-manual: #4F86E8; --s-skill: #E8611A;
-  --warn-bg: #2A1A10; --warn-ink: #FFB487; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.6; }
 .notice { background: var(--warn-bg); color: var(--warn-ink); text-align: center; font-weight: 700; letter-spacing: 0.04em; font-size: 13px; padding: 10px 16px; border-bottom: 1px solid var(--rule); }
 main { max-width: 1000px; margin: 0 auto; padding: 40px 20px 64px; display: grid; gap: 48px; }
-header { display: grid; gap: 12px; }
-.eyebrow { color: var(--accent); font-weight: 600; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+.top { border-radius: 14px; overflow: hidden; }
+header { display: grid; gap: 14px; background: var(--iatc-navy); color: #fff; padding: 32px 32px 4px; }
+header .brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+header .brand b { font-size: 22px; font-weight: 700; font-style: italic; letter-spacing: 0.04em; color: #fff; }
+header .brand span { font-size: 13px; color: #B9C6D8; }
+header .eyebrow { color: var(--iatc-orange); }
+header h1 { color: #fff; }
+header .meta { color: #C7D2E1; padding-bottom: 24px; }
+header .meta strong { color: #fff; }
+.band { display: flex; height: 10px; }
+.band i { display: block; }
+.band .b1 { flex: 46; background: var(--iatc-navy); }
+.band .b2 { flex: 18; background: var(--iatc-cyan); }
+.band .b3 { flex: 18; background: var(--iatc-green); }
+.band .b4 { flex: 18; background: var(--iatc-orange); }
+.fband { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 14px; }
+.fband .b1 { flex: 46; background: var(--iatc-navy); } .fband .b2 { flex: 18; background: var(--iatc-cyan); } .fband .b3 { flex: 18; background: var(--iatc-green); } .fband .b4 { flex: 18; background: var(--iatc-orange); }
+.skill.s1 { border-top: 4px solid var(--iatc-orange); } .skill.s1 .tag { color: var(--accent-ink); }
+.skill.s2 { border-top: 4px solid var(--iatc-green); } .skill.s2 .tag { color: var(--green-ink); }
+.skill.s3 { border-top: 4px solid var(--iatc-cyan); } .skill.s3 .tag { color: var(--cyan-ink); }
+.tagline { color: var(--accent-ink); font-weight: 600; }
+.eyebrow { color: var(--accent-ink); font-weight: 600; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
 h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.2; margin: 0; text-wrap: balance; max-width: 22ch; }
-.meta { color: var(--ink-2); font-size: 14px; }
-.meta strong { color: var(--ink); }
+.meta { font-size: 14px; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
 .stat { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; display: grid; gap: 4px; }
 .stat b { font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .stat span { color: var(--ink-2); font-size: 14px; line-height: 1.4; }
-.stat.key { border-color: var(--accent); background: var(--accent-soft); }
+.stat.key { border-color: var(--iatc-orange); background: var(--accent-soft); }
+.stat { border-top: 4px solid var(--iatc-cyan); }
+.stat.key { border-top-color: var(--iatc-orange); }
 section { display: grid; gap: 16px; }
 h2 { font-size: 22px; margin: 0; display: flex; gap: 10px; align-items: baseline; text-wrap: balance; }
-h2 .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+h2 .n { color: var(--accent-ink); font-variant-numeric: tabular-nums; }
 .prose { max-width: 70ch; display: grid; gap: 10px; }
 .prose p, .prose ul, .prose ol { margin: 0; }
 .prose ul, .prose ol { padding-left: 1.2em; display: grid; gap: 6px; }
@@ -74,7 +89,7 @@ svg { display: block; width: 100%; height: auto; min-width: 640px; font-family: 
 .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--ink-2); }
 .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
 details summary { cursor: pointer; color: var(--ink-2); font-size: 14px; }
-details summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+details summary:focus-visible, a:focus-visible { outline: 2px solid var(--iatc-cyan); outline-offset: 2px; border-radius: 4px; }
 table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 th { color: var(--ink-2); font-weight: 600; }
@@ -86,7 +101,7 @@ tr.total td { font-weight: 700; }
 .cost b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
 .agenda { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; max-width: 70ch; }
 .agenda li { display: grid; grid-template-columns: 64px 1fr; gap: 12px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 14px; }
-.agenda .t { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+.agenda .t { color: var(--accent-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
 .sources { font-size: 14px; color: var(--ink-2); }
 .sources a { color: var(--ink); }
 footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-2); font-size: 14px; }
@@ -97,11 +112,15 @@ footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-
 <body>
 <div class="notice">TÀI LIỆU NỘI BỘ ĐỂ CHỈNH SỬA, CHƯA CHÍNH THỨC</div>
 <main>
+  <div class="top">
   <header>
+    <div class="brand"><b>IATC</b><span>Trung tâm Đào tạo AI Công nghiệp · Industrial AI Training Center</span></div>
     <div class="eyebrow">Đề xuất hợp tác · HEPZA · PTTC · IATC</div>
     <h1>Ứng dụng AI hỗ trợ doanh nghiệp KCX, KCN lập báo cáo năm</h1>
-    <div class="meta">Người đề xuất: <strong>Trần Hoàng Nguyên</strong>, Cố vấn Đào tạo, Trung tâm Đào tạo AI Công nghiệp IATC (thuộc Học viện AI Labs Mastery) · Bản nháp ngày 18/11/2026</div>
+    <div class="meta">Người đề xuất: <strong>Trần Hoàng Nguyên</strong>, Cố vấn Đào tạo, Trung tâm Đào tạo AI Công nghiệp IATC (thuộc Học viện AI Lab Mastery) · Bản nháp ngày 18/11/2026</div>
   </header>
+  <div class="band" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div>
+  </div>
 
   <div class="stats" aria-label="Số liệu chính">
     <div class="stat"><b>5.400+</b><span>dự án đang hoạt động tại các KCX, KCN TP.HCM</span></div>
@@ -135,7 +154,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-
           <path d="M210 30 V22 H560 V30"/>
           <path d="M590 30 V22 H940 V30"/>
         </g>
-        <text x="385" y="14" text-anchor="middle" font-size="13" font-weight="600" fill="var(--accent)">AI hỗ trợ soạn và kiểm tra</text>
+        <text x="385" y="14" text-anchor="middle" font-size="13" font-weight="600" fill="var(--accent-ink)">AI hỗ trợ soạn và kiểm tra</text>
         <text x="765" y="14" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-2)">Doanh nghiệp chịu trách nhiệm</text>
         <g stroke-width="1.25">
           <rect x="20" y="62" width="160" height="76" rx="8" fill="var(--surface)" stroke="var(--rule)"/>
@@ -166,9 +185,9 @@ footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-
       <figcaption>Quy trình lập một báo cáo với Skill</figcaption>
     </figure>
     <div class="skills">
-      <div class="skill"><span class="tag">SKILL 1 · THÍ ĐIỂM</span><b>Báo cáo năm về tình hình thực hiện dự án đầu tư</b><span>Mẫu I.3.2, hạn trước 31/3 năm sau</span></div>
-      <div class="skill"><span class="tag">SKILL 2</span><b>Báo cáo công tác bảo vệ môi trường năm</b><span>Theo quy định môi trường sửa đổi năm 2026</span></div>
-      <div class="skill"><span class="tag">SKILL 3</span><b>Báo cáo tình hình sử dụng lao động</b><span>Kỳ 6 tháng và cả năm</span></div>
+      <div class="skill s1"><span class="tag">SKILL 1 · THÍ ĐIỂM</span><b>Báo cáo năm về tình hình thực hiện dự án đầu tư</b><span>Mẫu I.3.2, hạn trước 31/3 năm sau</span></div>
+      <div class="skill s2"><span class="tag">SKILL 2</span><b>Báo cáo công tác bảo vệ môi trường năm</b><span>Theo quy định môi trường sửa đổi năm 2026</span></div>
+      <div class="skill s3"><span class="tag">SKILL 3</span><b>Báo cáo tình hình sử dụng lao động</b><span>Kỳ 6 tháng và cả năm</span></div>
     </div>
     <p class="note">Chương trình chỉ hướng dẫn trên Claude Pro, để Skill chạy ổn định và doanh nghiệp nhận bản cập nhật mỗi khi văn bản pháp luật thay đổi.</p>
   </section>
@@ -216,10 +235,10 @@ footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-
           <path d="M300 80 H360 V160"/><path d="M660 80 H600 V160"/>
           <path d="M300 320 H360 V240"/><path d="M660 320 H600 V240"/>
         </g>
-        <rect x="330" y="160" width="300" height="80" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
-        <text x="480" y="195" text-anchor="middle" font-size="16" font-weight="700" fill="var(--ink)">Workshop thực hành</text>
-        <text x="480" y="218" text-anchor="middle" font-size="13" fill="var(--ink-2)">Skill + Claude Pro, tại PTTC</text>
-        <g fill="var(--surface)" stroke="var(--rule)" stroke-width="1.25">
+        <rect x="330" y="160" width="300" height="80" rx="10" fill="var(--iatc-navy)" stroke="var(--iatc-orange)" stroke-width="2"/>
+        <text x="480" y="195" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">Workshop thực hành</text>
+        <text x="480" y="218" text-anchor="middle" font-size="13" fill="#C7D2E1">Skill + Claude Pro, tại PTTC</text>
+        <g fill="var(--surface)" stroke="var(--iatc-cyan)" stroke-width="1.5">
           <rect x="20" y="20" width="280" height="120" rx="10"/><rect x="660" y="20" width="280" height="120" rx="10"/>
           <rect x="20" y="260" width="280" height="120" rx="10"/><rect x="660" y="260" width="280" height="120" rx="10"/>
         </g>
@@ -227,22 +246,22 @@ footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-
           <text x="38" y="50" font-size="15" font-weight="700" fill="var(--ink)">HEPZA</text>
           <text x="38" y="74">Chủ trì, mời doanh nghiệp</text>
           <text x="38" y="94">Hướng dẫn báo cáo và pháp lý</text>
-          <text x="38" y="124" font-weight="600" fill="var(--accent)">Hỗ trợ chuyên môn</text>
+          <text x="38" y="124" font-weight="600" fill="var(--accent-ink)">Hỗ trợ chuyên môn</text>
 
           <text x="678" y="50" font-size="15" font-weight="700" fill="var(--ink)">IATC</text>
           <text x="678" y="74">Chuyên gia AI, chuyên gia Claude Pro</text>
           <text x="678" y="94">Phát triển, cập nhật Skill</text>
-          <text x="678" y="124" font-weight="600" fill="var(--accent)">Hỗ trợ chuyên gia</text>
+          <text x="678" y="124" font-weight="600" fill="var(--accent-ink)">Hỗ trợ chuyên gia</text>
 
           <text x="38" y="290" font-size="15" font-weight="700" fill="var(--ink)">PTTC (Học viện PTIT)</text>
           <text x="38" y="314">Phòng đào tạo, cơ sở vật chất</text>
           <text x="38" y="334">Tổ chức lớp</text>
-          <text x="38" y="364" font-weight="600" fill="var(--accent)">Thu phí phòng từ doanh nghiệp</text>
+          <text x="38" y="364" font-weight="600" fill="var(--accent-ink)">Thu phí phòng từ doanh nghiệp</text>
 
           <text x="678" y="290" font-size="15" font-weight="700" fill="var(--ink)">Doanh nghiệp</text>
           <text x="678" y="314">Cử nhân sự, chuẩn bị dữ liệu</text>
           <text x="678" y="334">Tự rà soát, ký số, nộp báo cáo</text>
-          <text x="678" y="364" font-weight="600" fill="var(--accent)">Trả Claude Pro, token, phí phòng</text>
+          <text x="678" y="364" font-weight="600" fill="var(--accent-ink)">Trả Claude Pro, token, phí phòng</text>
         </g>
       </svg>
       </div>
@@ -290,7 +309,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-
     </ul>
   </section>
 
-  <footer>Người đề xuất: <strong>Trần Hoàng Nguyên</strong>, Cố vấn Đào tạo, Trung tâm Đào tạo AI Công nghiệp IATC. Tài liệu nội bộ để chỉnh sửa, chưa chính thức.</footer>
+  <footer><div class="fband" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div><span class="tagline">Tiến bộ mỗi ngày · Onward &amp; Upward</span><br>Người đề xuất: <strong>Trần Hoàng Nguyên</strong>, Cố vấn Đào tạo, Trung tâm Đào tạo AI Công nghiệp IATC. Tài liệu nội bộ để chỉnh sửa, chưa chính thức.</footer>
 </main>
 <div id="tip" role="tooltip"></div>
 <script>
@@ -340,7 +359,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-
   });
   svg.appendChild(el("line", { x1: 20, x2: 940, y1: top + rows.length * gh - 2, y2: top + rows.length * gh - 2, stroke: "var(--rule)" }));
   svg.appendChild(el("text", { x: 20, y: top + rows.length * gh + 22, "font-size": 14, "font-weight": 700, fill: "var(--ink)" }, "Tổng mỗi năm: 76 giờ → 23 giờ"));
-  svg.appendChild(el("text", { x: 940, y: top + rows.length * gh + 22, "text-anchor": "end", "font-size": 15, "font-weight": 700, fill: "var(--accent)" }, "−53 giờ"));
+  svg.appendChild(el("text", { x: 940, y: top + rows.length * gh + 22, "text-anchor": "end", "font-size": 15, "font-weight": 700, fill: "var(--accent-ink)" }, "−53 giờ"));
 
   // Lộ trình: tháng 12/2026 đến tháng 4/2027
   var tl = document.getElementById("timeline");
@@ -362,12 +381,12 @@ footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-
     var y = ty + i * rh;
     tl.appendChild(el("line", { x1: 20, x2: CX(5), y1: y + rh - 4, y2: y + rh - 4, stroke: "var(--rule)", "stroke-dasharray": "2 4" }));
     tl.appendChild(el("text", { x: 20, y: y + 26, "font-size": 13.5, "font-weight": 600, fill: "var(--ink)" }, p.name));
-    tl.appendChild(el("rect", { x: CX(p.s) + 6, y: y + 12, width: (p.e - p.s) * cw - 12, height: 20, rx: 6, fill: "var(--s-manual)", "fill-opacity": 0.22, stroke: "var(--s-manual)", "stroke-width": 1.25 }));
+    tl.appendChild(el("rect", { x: CX(p.s) + 6, y: y + 12, width: (p.e - p.s) * cw - 12, height: 20, rx: 6, fill: "var(--iatc-cyan)", "fill-opacity": 0.22, stroke: "var(--cyan-ink)", "stroke-width": 1.25 }));
   });
   var dl = CX(4) - 2;
   tl.appendChild(el("line", { x1: dl, x2: dl, y1: 30, y2: ty + 4 * rh + 8, stroke: "var(--accent)", "stroke-width": 1.5, "stroke-dasharray": "4 4" }));
   tl.appendChild(el("path", { d: "M" + dl + " " + (ty + 4 * rh + 4) + "l8 8l-8 8l-8 -8z", fill: "var(--accent)" }));
-  tl.appendChild(el("text", { x: dl - 14, y: ty + 4 * rh + 17, "text-anchor": "end", "font-size": 13, "font-weight": 700, fill: "var(--accent)" }, "Hạn nộp báo cáo năm: trước 31/3/2027"));
+  tl.appendChild(el("text", { x: dl - 14, y: ty + 4 * rh + 17, "text-anchor": "end", "font-size": 13, "font-weight": 700, fill: "var(--accent-ink)" }, "Hạn nộp báo cáo năm: trước 31/3/2027"));
 })();
 </script>
 </body>
