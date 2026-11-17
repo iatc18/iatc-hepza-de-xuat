@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đề xuất AI lập báo cáo KCX, KCN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Bố cục: một cột đọc ~720px, hình minh họa rộng hơn; màu nhận diện IATC (navy + cam) */
+:root {
+  --bg: #F6F8FB;
+  --surface: #FFFFFF;
+  --ink: #0B1F3A;
+  --ink-2: #44546B;
+  --ink-3: #6B7A90;
+  --rule: #DCE3EC;
+  --accent: #E8590C;
+  --accent-soft: rgba(232, 89, 12, 0.10);
+  --navy-soft: rgba(11, 31, 58, 0.05);
+  --s-manual: #3B6FD4;
+  --s-skill: #E8590C;
+  --warn-bg: #FFF1E8;
+  --warn-ink: #9A3A06;
+  --font: "Be Vietnam Pro", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1422; --surface: #111D30; --ink: #E8EEF6; --ink-2: #B3C0D2; --ink-3: #8696AC;
+    --rule: #24344D; --accent: #FF7A33; --accent-soft: rgba(255, 122, 51, 0.14);
+    --navy-soft: rgba(232, 238, 246, 0.04); --s-manual: #4F86E8; --s-skill: #E8611A;
+    --warn-bg: #2A1A10; --warn-ink: #FFB487; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1422; --surface: #111D30; --ink: #E8EEF6; --ink-2: #B3C0D2; --ink-3: #8696AC;
+  --rule: #24344D; --accent: #FF7A33; --accent-soft: rgba(255, 122, 51, 0.14);
+  --navy-soft: rgba(232, 238, 246, 0.04); --s-manual: #4F86E8; --s-skill: #E8611A;
+  --warn-bg: #2A1A10; --warn-ink: #FFB487; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.6; }
+.notice { background: var(--warn-bg); color: var(--warn-ink); text-align: center; font-weight: 700; letter-spacing: 0.04em; font-size: 13px; padding: 10px 16px; border-bottom: 1px solid var(--rule); }
+main { max-width: 1000px; margin: 0 auto; padding: 40px 20px 64px; display: grid; gap: 48px; }
+header { display: grid; gap: 12px; }
+.eyebrow { color: var(--accent); font-weight: 600; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+h1 { font-size: clamp(26px, 4vw, 38px); line-height: 1.2; margin: 0; text-wrap: balance; max-width: 22ch; }
+.meta { color: var(--ink-2); font-size: 14px; }
+.meta strong { color: var(--ink); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; display: grid; gap: 4px; }
+.stat b { font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--ink-2); font-size: 14px; line-height: 1.4; }
+.stat.key { border-color: var(--accent); background: var(--accent-soft); }
+section { display: grid; gap: 16px; }
+h2 { font-size: 22px; margin: 0; display: flex; gap: 10px; align-items: baseline; text-wrap: balance; }
+h2 .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+.prose { max-width: 70ch; display: grid; gap: 10px; }
+.prose p, .prose ul, .prose ol { margin: 0; }
+.prose ul, .prose ol { padding-left: 1.2em; display: grid; gap: 6px; }
+.lead { font-size: 17px; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 20px; display: grid; gap: 10px; }
+figcaption { color: var(--ink-3); font-size: 13px; }
+.scroll { overflow-x: auto; }
+svg { display: block; width: 100%; height: auto; min-width: 640px; font-family: var(--font); }
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.skill { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 6px; align-content: start; }
+.skill .tag { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; }
+.skill b { font-size: 16px; line-height: 1.35; }
+.skill span { font-size: 14px; color: var(--ink-2); }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+details summary { cursor: pointer; color: var(--ink-2); font-size: 14px; }
+details summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; }
+td.num, th.num { text-align: right; }
+tr.total td { font-weight: 700; }
+.note { color: var(--ink-3); font-size: 13px; max-width: 80ch; }
+.cost { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.cost div { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; font-size: 15px; }
+.cost b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+.agenda { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; max-width: 70ch; }
+.agenda li { display: grid; grid-template-columns: 64px 1fr; gap: 12px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 14px; }
+.agenda .t { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+.sources { font-size: 14px; color: var(--ink-2); }
+.sources a { color: var(--ink); }
+footer { border-top: 1px solid var(--rule); padding-top: 16px; color: var(--ink-2); font-size: 14px; }
+#tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 13px; padding: 6px 10px; border-radius: 6px; opacity: 0; transition: opacity .1s; z-index: 10; max-width: 260px; }
+@media (prefers-reduced-motion: reduce) { #tip { transition: none; } }
+</style>
+</head>
+<body>
+<div class="notice">TÀI LIỆU NỘI BỘ ĐỂ CHỈNH SỬA, CHƯA CHÍNH THỨC</div>
+<main>
+  <header>
+    <div class="eyebrow">Đề xuất hợp tác · HEPZA · PTTC · IATC</div>
+    <h1>Ứng dụng AI hỗ trợ doanh nghiệp KCX, KCN lập báo cáo năm</h1>
+    <div class="meta">Người đề xuất: <strong>Trần Hoàng Nguyên</strong>, Cố vấn, Trung tâm Đào tạo AI Công nghiệp IATC (thuộc Học viện AI Labs Mastery) · Bản nháp ngày 18/11/2026</div>
+  </header>
+
+  <div class="stats" aria-label="Số liệu chính">
+    <div class="stat"><b>5.400+</b><span>dự án đang hoạt động tại các KCX, KCN TP.HCM</span></div>
+    <div class="stat key"><b>~53 giờ</b><span>công tiết kiệm mỗi doanh nghiệp mỗi năm (ước tính)</span></div>
+    <div class="stat"><b>~53.000 giờ</b><span>nếu 1.000 doanh nghiệp tham gia, tương đương 30 nhân sự cả năm</span></div>
+    <div class="stat"><b>31/3/2027</b><span>hạn nộp báo cáo năm 2026, năm đầu dùng mẫu mới</span></div>
+  </div>
+
+  <section id="boi-canh">
+    <h2><span class="n">1</span>Bối cảnh và vấn đề</h2>
+    <div class="prose">
+      <p class="lead">Trung tâm Đào tạo AI Công nghiệp IATC đề xuất cùng HEPZA và Trung tâm PTTC (Học viện PTIT) mở chuỗi workshop giúp doanh nghiệp KCX, KCN dùng AI lập báo cáo định kỳ năm đúng mẫu, đúng hạn.</p>
+      <ul>
+        <li><strong>Quy mô lớn:</strong> hơn 5.400 dự án đang hoạt động, hầu hết cùng phải làm một số báo cáo giống nhau.</li>
+        <li><strong>Khung pháp lý vừa đổi:</strong> Thông tư 55/2026/TT-BTC thay toàn bộ mẫu báo cáo đầu tư từ 15/5/2026. Kỳ báo cáo năm 2026 là năm đầu dùng mẫu mới.</li>
+        <li><strong>Gánh nặng thực tế:</strong> doanh nghiệp, nhất là doanh nghiệp nhỏ, mất nhiều ngày công gom số liệu từ kế toán, nhân sự, môi trường. Dễ sai mẫu, thiếu chỉ tiêu, nộp trễ; HEPZA tốn công đôn đốc và hướng dẫn lại.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="giai-phap">
+    <h2><span class="n">2</span>Giải pháp: Skill trên Claude Pro và workshop thực hành</h2>
+    <div class="prose">
+      <p>IATC xây dựng mỗi loại báo cáo thành một <strong>Skill</strong> (bộ quy trình chuẩn hóa chạy trên Claude Pro). Doanh nghiệp mang dữ liệu của mình đến workshop, ra về với bản nháp báo cáo đã được kiểm tra.</p>
+    </div>
+    <figure>
+      <div class="scroll">
+      <svg viewBox="0 0 960 190" role="img" aria-label="Quy trình: AI soạn bản nháp, doanh nghiệp rà soát, ký số và nộp">
+        <defs><marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink-3)"/></marker></defs>
+        <g fill="none" stroke="var(--ink-3)" stroke-width="1.25">
+          <path d="M210 30 V22 H560 V30"/>
+          <path d="M590 30 V22 H940 V30"/>
+        </g>
+        <text x="385" y="14" text-anchor="middle" font-size="13" font-weight="600" fill="var(--accent)">AI hỗ trợ soạn và kiểm tra</text>
+        <text x="765" y="14" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-2)">Doanh nghiệp chịu trách nhiệm</text>
+        <g stroke-width="1.25">
+          <rect x="20" y="62" width="160" height="76" rx="8" fill="var(--surface)" stroke="var(--rule)"/>
+          <rect x="210" y="62" width="160" height="76" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+          <rect x="400" y="62" width="160" height="76" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+          <rect x="590" y="62" width="160" height="76" rx="8" fill="var(--surface)" stroke="var(--rule)"/>
+          <rect x="780" y="62" width="160" height="76" rx="8" fill="var(--surface)" stroke="var(--rule)"/>
+        </g>
+        <g stroke="var(--ink-3)" stroke-width="1.25" marker-end="url(#arw)">
+          <line x1="182" y1="100" x2="207" y2="100"/><line x1="372" y1="100" x2="397" y2="100"/>
+          <line x1="562" y1="100" x2="587" y2="100"/><line x1="752" y1="100" x2="777" y2="100"/>
+        </g>
+        <g text-anchor="middle" fill="var(--ink)">
+          <text x="100" y="96" font-size="14" font-weight="600">Dữ liệu doanh nghiệp</text>
+          <text x="100" y="116" font-size="12.5" fill="var(--ink-2)">bảng lương, sổ sách</text>
+          <text x="290" y="96" font-size="14" font-weight="600">Skill của IATC</text>
+          <text x="290" y="116" font-size="12.5" fill="var(--ink-2)">chạy trên Claude Pro</text>
+          <text x="480" y="96" font-size="14" font-weight="600">Bản nháp đúng mẫu</text>
+          <text x="480" y="116" font-size="12.5" fill="var(--ink-2)">đã đối chiếu số liệu</text>
+          <text x="670" y="96" font-size="14" font-weight="600">Rà soát, ký số</text>
+          <text x="670" y="116" font-size="12.5" fill="var(--ink-2)">bởi doanh nghiệp</text>
+          <text x="860" y="96" font-size="14" font-weight="600">Nộp trên cổng</text>
+          <text x="860" y="116" font-size="12.5" fill="var(--ink-2)">chính thức</text>
+        </g>
+        <text x="20" y="176" font-size="12.5" fill="var(--ink-3)">Skill đọc số liệu, điền đúng chỉ tiêu của mẫu hiện hành, cảnh báo số liệu bất thường, xuất Word hoặc Excel.</text>
+      </svg>
+      </div>
+      <figcaption>Quy trình lập một báo cáo với Skill</figcaption>
+    </figure>
+    <div class="skills">
+      <div class="skill"><span class="tag">SKILL 1 · THÍ ĐIỂM</span><b>Báo cáo năm về tình hình thực hiện dự án đầu tư</b><span>Mẫu I.3.2, hạn trước 31/3 năm sau</span></div>
+      <div class="skill"><span class="tag">SKILL 2</span><b>Báo cáo công tác bảo vệ môi trường năm</b><span>Theo quy định môi trường sửa đổi năm 2026</span></div>
+      <div class="skill"><span class="tag">SKILL 3</span><b>Báo cáo tình hình sử dụng lao động</b><span>Kỳ 6 tháng và cả năm</span></div>
+    </div>
+    <p class="note">Chương trình chỉ hướng dẫn trên Claude Pro, để Skill chạy ổn định và doanh nghiệp nhận bản cập nhật mỗi khi văn bản pháp luật thay đổi.</p>
+  </section>
+
+  <section id="loi-ich">
+    <h2><span class="n">3</span>Lợi ích cho doanh nghiệp</h2>
+    <div class="prose"><p class="lead">Thời gian làm 4 nhóm báo cáo giảm từ khoảng 76 xuống 23 giờ mỗi năm, tiết kiệm khoảng 53 giờ công cho mỗi doanh nghiệp.</p></div>
+    <figure>
+      <div class="legend"><span><i style="background:var(--s-manual)"></i>Làm thủ công</span><span><i style="background:var(--s-skill)"></i>Có Skill</span></div>
+      <div class="scroll"><svg id="chart" viewBox="0 0 960 320" role="img" aria-label="Giờ công mỗi năm theo loại báo cáo, làm thủ công so với có Skill"></svg></div>
+      <figcaption>Giờ công mỗi năm theo loại báo cáo. Số liệu là ước tính của IATC, sẽ đo lại trong đợt thí điểm.</figcaption>
+      <details>
+        <summary>Xem bảng số liệu</summary>
+        <div class="scroll">
+        <table>
+          <thead><tr><th>Báo cáo</th><th class="num">Thủ công (giờ/kỳ)</th><th class="num">Có Skill (giờ/kỳ)</th><th class="num">Số kỳ/năm</th><th class="num">Tiết kiệm (giờ/năm)</th></tr></thead>
+          <tbody>
+            <tr><td>Báo cáo năm dự án đầu tư (I.3.2)</td><td class="num">24</td><td class="num">6</td><td class="num">1</td><td class="num">18</td></tr>
+            <tr><td>Báo cáo quý dự án đầu tư (I.3.1)</td><td class="num">6</td><td class="num">2</td><td class="num">4</td><td class="num">16</td></tr>
+            <tr><td>Báo cáo bảo vệ môi trường năm</td><td class="num">16</td><td class="num">5</td><td class="num">1</td><td class="num">11</td></tr>
+            <tr><td>Báo cáo sử dụng lao động</td><td class="num">6</td><td class="num">2</td><td class="num">2</td><td class="num">8</td></tr>
+            <tr class="total"><td>Tổng</td><td></td><td></td><td></td><td class="num">53</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </details>
+    </figure>
+    <div class="cost">
+      <div><b>≈ 4,5 triệu đồng</b>giá trị 53 giờ công mỗi năm (lương 15 triệu đồng/tháng, khoảng 85.000 đồng/giờ)</div>
+      <div><b>≈ 5,2 triệu đồng</b>phí Claude Pro gói năm (200 USD, tỷ giá 26.000 đồng/USD); cùng tài khoản dùng được cho việc văn phòng khác</div>
+    </div>
+    <div class="prose">
+      <ul>
+        <li><strong>Giảm rủi ro:</strong> đúng mẫu mới, đủ chỉ tiêu, nộp đúng hạn, hạn chế bị trả hồ sơ hoặc xử phạt hành chính do báo cáo trễ.</li>
+        <li><strong>Số liệu nhất quán:</strong> các báo cáo gửi nhiều cơ quan khớp nhau về lao động, vốn, sản lượng.</li>
+        <li><strong>Năng lực nội bộ:</strong> nhân viên hành chính, kế toán dùng AI theo quy trình chuẩn, không phụ thuộc một người nắm việc.</li>
+        <li><strong>Với HEPZA:</strong> hồ sơ đúng mẫu ngay từ lần đầu, giảm công đôn đốc, số liệu tổng hợp đáng tin cậy hơn.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="phoi-hop">
+    <h2><span class="n">4</span>Mô hình phối hợp và chi phí</h2>
+    <div class="prose"><p>Mỗi bên đóng góp đúng thế mạnh của mình; doanh nghiệp tự chi trả tài khoản Claude Pro và phí phòng đào tạo.</p></div>
+    <figure>
+      <div class="scroll">
+      <svg viewBox="0 0 960 400" role="img" aria-label="Bốn bên cùng phục vụ workshop thực hành">
+        <g stroke="var(--ink-3)" stroke-width="1.25" fill="none">
+          <path d="M300 80 H360 V160"/><path d="M660 80 H600 V160"/>
+          <path d="M300 320 H360 V240"/><path d="M660 320 H600 V240"/>
+        </g>
+        <rect x="330" y="160" width="300" height="80" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+        <text x="480" y="195" text-anchor="middle" font-size="16" font-weight="700" fill="var(--ink)">Workshop thực hành</text>
+        <text x="480" y="218" text-anchor="middle" font-size="13" fill="var(--ink-2)">Skill + Claude Pro, tại PTTC</text>
+        <g fill="var(--surface)" stroke="var(--rule)" stroke-width="1.25">
+          <rect x="20" y="20" width="280" height="120" rx="10"/><rect x="660" y="20" width="280" height="120" rx="10"/>
+          <rect x="20" y="260" width="280" height="120" rx="10"/><rect x="660" y="260" width="280" height="120" rx="10"/>
+        </g>
+        <g font-size="13" fill="var(--ink-2)">
+          <text x="38" y="50" font-size="15" font-weight="700" fill="var(--ink)">HEPZA</text>
+          <text x="38" y="74">Chủ trì, mời doanh nghiệp</text>
+          <text x="38" y="94">Hướng dẫn báo cáo và pháp lý</text>
+          <text x="38" y="124" font-weight="600" fill="var(--accent)">Hỗ trợ chuyên môn</text>
+
+          <text x="678" y="50" font-size="15" font-weight="700" fill="var(--ink)">IATC</text>
+          <text x="678" y="74">Chuyên gia AI, chuyên gia Claude Pro</text>
+          <text x="678" y="94">Phát triển, cập nhật Skill</text>
+          <text x="678" y="124" font-weight="600" fill="var(--accent)">Hỗ trợ chuyên gia</text>
+
+          <text x="38" y="290" font-size="15" font-weight="700" fill="var(--ink)">PTTC (Học viện PTIT)</text>
+          <text x="38" y="314">Phòng đào tạo, cơ sở vật chất</text>
+          <text x="38" y="334">Tổ chức lớp</text>
+          <text x="38" y="364" font-weight="600" fill="var(--accent)">Thu phí phòng từ doanh nghiệp</text>
+
+          <text x="678" y="290" font-size="15" font-weight="700" fill="var(--ink)">Doanh nghiệp</text>
+          <text x="678" y="314">Cử nhân sự, chuẩn bị dữ liệu</text>
+          <text x="678" y="334">Tự rà soát, ký số, nộp báo cáo</text>
+          <text x="678" y="364" font-weight="600" fill="var(--accent)">Trả Claude Pro, token, phí phòng</text>
+        </g>
+      </svg>
+      </div>
+      <figcaption>Vai trò và chi phí của từng bên</figcaption>
+    </figure>
+  </section>
+
+  <section id="lo-trinh">
+    <h2><span class="n">5</span>Lộ trình thí điểm</h2>
+    <div class="prose"><p>Thí điểm Skill 1 trong quý I/2027, kịp kỳ báo cáo năm 2026.</p></div>
+    <figure>
+      <div class="scroll"><svg id="timeline" viewBox="0 0 960 250" role="img" aria-label="Lộ trình thí điểm từ tháng 12/2026 đến tháng 4/2027"></svg></div>
+      <figcaption>Mốc cam: hạn nộp báo cáo năm 2026 (trước 31/3/2027)</figcaption>
+    </figure>
+  </section>
+
+  <section id="trach-nhiem">
+    <h2><span class="n">6</span>Phạm vi trách nhiệm</h2>
+    <div class="prose">
+      <p>Skill chỉ hỗ trợ soạn thảo và kiểm tra; doanh nghiệp tự chịu trách nhiệm về số liệu, ký số và nộp trên cổng chính thức.</p>
+      <ul>
+        <li>Nội dung này được ghi rõ trong tài liệu workshop và ngay trong Skill.</li>
+        <li>Workshop có phần hướng dẫn bảo vệ dữ liệu cá nhân khi đưa số liệu nhân sự vào AI.</li>
+        <li>IATC rà soát văn bản pháp luật định kỳ và cập nhật Skill khi mẫu báo cáo thay đổi.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="cuoc-hop">
+    <h2><span class="n">7</span>Đề xuất cuộc họp 45 phút</h2>
+    <div class="prose"><p>IATC kính đề nghị tổ chức một cuộc họp 45 phút giữa HEPZA, PTTC và IATC trong tháng 12/2026 để thống nhất triển khai. Phân bổ thời gian dự kiến:</p></div>
+    <ol class="agenda">
+      <li><span class="t">10 phút</span><span>Thống nhất danh mục báo cáo ưu tiên và đầu mối nghiệp vụ phía HEPZA</span></li>
+      <li><span class="t">15 phút</span><span>Thống nhất mô hình phối hợp, mức phí cơ sở vật chất và cách thu</span></li>
+      <li><span class="t">10 phút</span><span>Chọn 3–5 doanh nghiệp chạy thử và lịch workshop đợt 1</span></li>
+      <li><span class="t">10 phút</span><span>Phương thức truyền thông, mời doanh nghiệp</span></li>
+    </ol>
+  </section>
+
+  <section id="nguon">
+    <h2>Nguồn</h2>
+    <ul class="sources">
+      <li><a href="https://vcci.com.vn/news/doi-thoai-thao-go-kho-khan-cho-doanh-nghiep-trong-cac-khu-cong-nghiep">VCCI: Đối thoại tháo gỡ khó khăn cho doanh nghiệp trong các KCN</a></li>
+      <li><a href="https://thuvienphapluat.vn/bieumau/46359/MAU-BAO-CAO-NAM-VE-TINH-HINH-THUC-HIEN-DU-AN-DAU-TU">Mẫu I.3.2 Báo cáo năm về tình hình thực hiện dự án đầu tư (Thông tư 55/2026/TT-BTC)</a></li>
+      <li><a href="https://dhtaxlaw.com.vn/mau-bao-cao-tinh-hinh-trien-khai-du-an-dau-tu-moi-nhat-2026?lang=us">Thông tư 55/2026/TT-BTC thay Thông tư 03/2021/TT-BKHĐT từ 15/5/2026</a></li>
+      <li><a href="https://support.claude.com/en/articles/8325606-what-is-the-pro-plan">Anthropic: Gói Claude Pro</a></li>
+    </ul>
+  </section>
+
+  <footer>Người đề xuất: <strong>Trần Hoàng Nguyên</strong>, Cố vấn, Trung tâm Đào tạo AI Công nghiệp IATC. Tài liệu nội bộ để chỉnh sửa, chưa chính thức.</footer>
+</main>
+<div id="tip" role="tooltip"></div>
+<script>
+(function () {
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  var tip = document.getElementById("tip");
+  function showTip(evt, html) { tip.innerHTML = html; tip.style.opacity = 1; tip.style.left = (evt.clientX + 14) + "px"; tip.style.top = (evt.clientY + 14) + "px"; }
+  function hideTip() { tip.style.opacity = 0; }
+
+  // Biểu đồ: giờ công mỗi năm, thủ công so với có Skill
+  var rows = [
+    { name: "Báo cáo năm dự án đầu tư (I.3.2)", sub: "1 kỳ/năm", manual: 24, skill: 6 },
+    { name: "Báo cáo quý dự án đầu tư (I.3.1)", sub: "4 kỳ/năm", manual: 24, skill: 8 },
+    { name: "Báo cáo bảo vệ môi trường năm", sub: "1 kỳ/năm", manual: 16, skill: 5 },
+    { name: "Báo cáo sử dụng lao động", sub: "2 kỳ/năm", manual: 12, skill: 4 }
+  ];
+  var svg = document.getElementById("chart");
+  var x0 = 300, x1 = 860, max = 30, top = 36, gh = 62, bh = 16;
+  var X = function (v) { return x0 + (v / max) * (x1 - x0); };
+  [0, 10, 20, 30].forEach(function (t) {
+    svg.appendChild(el("line", { x1: X(t), x2: X(t), y1: top - 8, y2: top + rows.length * gh - 8, stroke: "var(--rule)", "stroke-width": 1 }));
+    svg.appendChild(el("text", { x: X(t), y: top - 16, "text-anchor": "middle", "font-size": 12, fill: "var(--ink-3)" }, t + " giờ"));
+  });
+  svg.appendChild(el("text", { x: 940, y: top - 16, "text-anchor": "end", "font-size": 12, "font-weight": 600, fill: "var(--ink-2)" }, "Tiết kiệm"));
+  rows.forEach(function (r, i) {
+    var y = top + i * gh;
+    svg.appendChild(el("text", { x: 20, y: y + 14, "font-size": 14, "font-weight": 600, fill: "var(--ink)" }, r.name));
+    svg.appendChild(el("text", { x: 20, y: y + 33, "font-size": 12.5, fill: "var(--ink-3)" }, r.sub));
+    [["manual", "var(--s-manual)", "Làm thủ công", 0], ["skill", "var(--s-skill)", "Có Skill", bh + 2]].forEach(function (s) {
+      var v = r[s[0]], yy = y + s[3];
+      var w = X(v) - x0;
+      var p = el("path", { d: "M" + x0 + " " + yy + "H" + (x0 + w - 4) + "a4 4 0 0 1 4 4v" + (bh - 8) + "a4 4 0 0 1 -4 4H" + x0 + "z", fill: s[1] });
+      svg.appendChild(p);
+      var hit = el("rect", { x: x0, y: yy - 1, width: Math.max(w, 24), height: bh + 2, fill: "transparent" });
+      hit.addEventListener("mousemove", function (e) { showTip(e, "<b>" + r.name + "</b><br>" + s[2] + ": " + v + " giờ/năm"); });
+      hit.addEventListener("mouseleave", hideTip);
+      svg.appendChild(hit);
+      svg.appendChild(el("text", { x: X(v) + 6, y: yy + 12.5, "font-size": 12.5, fill: "var(--ink-2)" }, v));
+    });
+    svg.appendChild(el("text", { x: 940, y: y + 22, "text-anchor": "end", "font-size": 15, "font-weight": 700, fill: "var(--ink)" }, "−" + (r.manual - r.skill) + " giờ"));
+  });
+  svg.appendChild(el("line", { x1: 20, x2: 940, y1: top + rows.length * gh - 2, y2: top + rows.length * gh - 2, stroke: "var(--rule)" }));
+  svg.appendChild(el("text", { x: 20, y: top + rows.length * gh + 22, "font-size": 14, "font-weight": 700, fill: "var(--ink)" }, "Tổng mỗi năm: 76 giờ → 23 giờ"));
+  svg.appendChild(el("text", { x: 940, y: top + rows.length * gh + 22, "text-anchor": "end", "font-size": 15, "font-weight": 700, fill: "var(--accent)" }, "−53 giờ"));
+
+  // Lộ trình: tháng 12/2026 đến tháng 4/2027
+  var tl = document.getElementById("timeline");
+  var months = ["T12/2026", "T1/2027", "T2/2027", "T3/2027", "T4/2027"];
+  var c0 = 300, cw = 128, ty = 40, rh = 44;
+  var CX = function (m) { return c0 + m * cw; };
+  months.forEach(function (m, i) {
+    tl.appendChild(el("text", { x: CX(i) + cw / 2, y: 22, "text-anchor": "middle", "font-size": 12.5, "font-weight": 600, fill: "var(--ink-2)" }, m));
+    tl.appendChild(el("line", { x1: CX(i), x2: CX(i), y1: 30, y2: ty + 4 * rh, stroke: "var(--rule)" }));
+  });
+  tl.appendChild(el("line", { x1: CX(5), x2: CX(5), y1: 30, y2: ty + 4 * rh, stroke: "var(--rule)" }));
+  var phases = [
+    { name: "Họp các bên, chạy thử 3–5 DN", s: 0, e: 1 },
+    { name: "Workshop đợt 1 tại PTTC", s: 1, e: 2 },
+    { name: "Các đợt tiếp, hỗ trợ trực tuyến", s: 2, e: 4 },
+    { name: "Báo cáo kết quả, mở rộng Skill 2, 3", s: 4, e: 5 }
+  ];
+  phases.forEach(function (p, i) {
+    var y = ty + i * rh;
+    tl.appendChild(el("line", { x1: 20, x2: CX(5), y1: y + rh - 4, y2: y + rh - 4, stroke: "var(--rule)", "stroke-dasharray": "2 4" }));
+    tl.appendChild(el("text", { x: 20, y: y + 26, "font-size": 13.5, "font-weight": 600, fill: "var(--ink)" }, p.name));
+    tl.appendChild(el("rect", { x: CX(p.s) + 6, y: y + 12, width: (p.e - p.s) * cw - 12, height: 20, rx: 6, fill: "var(--s-manual)", "fill-opacity": 0.22, stroke: "var(--s-manual)", "stroke-width": 1.25 }));
+  });
+  var dl = CX(4) - 2;
+  tl.appendChild(el("line", { x1: dl, x2: dl, y1: 30, y2: ty + 4 * rh + 8, stroke: "var(--accent)", "stroke-width": 1.5, "stroke-dasharray": "4 4" }));
+  tl.appendChild(el("path", { d: "M" + dl + " " + (ty + 4 * rh + 4) + "l8 8l-8 8l-8 -8z", fill: "var(--accent)" }));
+  tl.appendChild(el("text", { x: dl - 14, y: ty + 4 * rh + 17, "text-anchor": "end", "font-size": 13, "font-weight": 700, fill: "var(--accent)" }, "Hạn nộp báo cáo năm: trước 31/3/2027"));
+})();
+</script>
+</body>
+</html>
